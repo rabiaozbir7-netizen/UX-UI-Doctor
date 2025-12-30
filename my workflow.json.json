@@ -1,0 +1,107 @@
+{
+  "name": "UX Pilot Kesin Cozum",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Aşağıdaki URL'ye git ve bu web sitesini Nielsen'in 10 UX ilkesine göre Türkçe analiz et. URL: {{ $json.body.url }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        -800
+      ],
+      "id": "6ea0819b-f563-4e1e-9c71-c82ee8c12872",
+      "name": "Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "PV4TTH8a8KBEgqU3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        -928
+      ],
+      "id": "06e7f442-73e2-4819-ad8c-cad253b8f4db",
+      "name": "Webhook1",
+      "webhookId": "7d86093b-085b-4347-afc8-0ad68e22c7eb"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1184,
+        -928
+      ],
+      "id": "24eb1b42-621e-43d8-a6c7-9e57daaa9c01",
+      "name": "Respond to Webhook1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Google Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "e8795a94-44cf-43b4-abe0-94eeded62867",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6d074fa584b320a22e885e64dfa34ee3805172e3c1d1fb8d0673537b1d5881f6"
+  },
+  "id": "BbBl0zHIJZe0yUFy",
+  "tags": []
+}
